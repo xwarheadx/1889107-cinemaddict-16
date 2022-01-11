@@ -1,19 +1,23 @@
-export const createMovieCardTemplate = () => (`<article class="film-card">
+const createDescription = (description) => description.length > 140 ? `${description.slice(0, 139)}...` : description;
+export const createMovieCardTemplate = (movie) => {
+  const {name, poster, description, rating, date, duration, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
+  const activeClassName = (status) => status ? 'film-card__controls-item--active': '';
+  return `<article class="film-card">
 <a class="film-card__link">
-  <h3 class="film-card__title">The Great Flamarion</h3>
-  <p class="film-card__rating">8.9</p>
+  <h3 class="film-card__title">${name}</h3>
+  <p class="film-card__rating">${rating}</p>
   <p class="film-card__info">
-    <span class="film-card__year">1945</span>
-    <span class="film-card__duration">1h 18m</span>
-    <span class="film-card__genre">Mystery</span>
+    <span class="film-card__year">${date}</span>
+    <span class="film-card__duration">${duration}</span>
+    <span class="film-card__genre">${genre[0]}</span>
   </p>
-  <img src="./images/posters/the-great-flamarion.jpg" alt="" class="film-card__poster">
-  <p class="film-card__description">The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Grea…</p>
-  <span class="film-card__comments">12 comments</span>
+  <img src=${poster} alt="" class="film-card__poster">
+  <p class="film-card__description">${createDescription(description)}</p>
+  <span class="film-card__comments">${comments.length} comments</span>
 </a>
 <div class="film-card__controls">
-  <button class="film-card__controls-item film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
-  <button class="film-card__controls-item film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-  <button class="film-card__controls-item film-card__controls-item--favorite" type="button">Mark as favorite</button>
+  <button class="film-card__controls-item film-card__controls-item--add-to-watchlist  ${activeClassName(inWatchlist)}" type="button">Add to watchlist</button>
+  <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${activeClassName(isWatched)}" type="button">Mark as watched</button>
+  <button class="film-card__controls-item film-card__controls-item--favorite ${activeClassName(isFavorite)}" type="button">Mark as favorite</button>
 </div>
-</article>`);
+</article>`;};
