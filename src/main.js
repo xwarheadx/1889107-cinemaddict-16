@@ -3,6 +3,7 @@ import { generateMovie } from './mock/movie-card-generator.js';
 import FilmCard from './view/film-card.js';
 import ExtraCommentedFilmsList from './view/films-extra-commented.js';
 import ExtraTopFilmList from './view/films-extra-top.js';
+import EmptyFilmsList from './view/films-list-empty.js';
 import FilmsList from './view/films-list.js';
 import FooterStatistics from './view/footer-stats.js';
 import MainNavigation from './view/main-navigation.js';
@@ -34,15 +35,27 @@ const siteMoviesContainerElement = siteMainElement.querySelector('.films-list__c
 const renderPopup = (movie) => {
   const movieCardComponent = new FilmCard(movie).element;
   const moviePopupComponent = new Popup(movie).element;
+  const closePopup = () => {
+    document.body.removeChild(moviePopupComponent);
+    document.body.classList.remove('hide-overflow');
+  };
+
+  const onKeyDownClosePopup = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      closePopup();
+      document.removeEventListener('keydown', onKeyDownClosePopup);
+    }
+  };
 
   renderElement(siteMoviesContainerElement, movieCardComponent, RenderPosition.BEFOREEND);
   movieCardComponent.addEventListener('click', () => {
     document.body.appendChild(moviePopupComponent);
     document.body.classList.add('hide-overflow');
+    document.addEventListener('keydown', onKeyDownClosePopup);
   });
   moviePopupComponent.querySelector('.film-details__close-btn').addEventListener('click', () => {
-    document.body.removeChild(moviePopupComponent);
-    document.body.classList.remove('hide-overflow');
+    closePopup();
   });
 };
 
@@ -69,7 +82,9 @@ if (movies.length > MOVIE_COUNT_PER_STEP) {
 
   });
 }
-
+if (movies.length === 0) {
+  renderElement(siteMainElement, new EmptyFilmsList().element, RenderPosition.BEFOREEND);
+}
 renderElement(siteMainElement, new ExtraTopFilmList().element, RenderPosition.BEFOREEND);
 renderElement(siteMainElement, new ExtraCommentedFilmsList().element, RenderPosition.BEFOREEND);
 renderElement(siteFooterElement, new FooterStatistics(movies).element, RenderPosition.BEFOREEND);

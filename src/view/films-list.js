@@ -6,7 +6,7 @@ const createMoviesContainerTemplate = () => (
     </div>
   </section>`
 );
-export default class MovieTemplate {
+export default class FilmsList {
   #element = null;
 
   get element() {

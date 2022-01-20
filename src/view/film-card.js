@@ -22,7 +22,7 @@ const createMovieCardTemplate = (movie) => {
   <button class="film-card__controls-item film-card__controls-item--favorite ${activeClassName(isFavorite)}" type="button">Mark as favorite</button>
 </div>
 </article>`;};
-export default class MovieCard {
+export default class FilmCard {
   #movie = null;
   #element = null;
 
