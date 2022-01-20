@@ -4,7 +4,7 @@ const createSortTemplate = () => (`<ul class="sort">
 <li><a href="#" class="sort__button">Sort by date</a></li>
 <li><a href="#" class="sort__button">Sort by rating</a></li>
 </ul>`);
-export default class SortMenu {
+export default class Sort {
     #element = null;
 
     get element() {

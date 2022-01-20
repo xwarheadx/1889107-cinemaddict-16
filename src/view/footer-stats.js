@@ -4,7 +4,7 @@ const createFooterStatisticTemplate = (movies) => (
       <p>${movies.length} movies inside</p>
     </section>`
 );
-export default class Statistic {
+export default class FooterStatistics {
   #element = null;
   #movies = null;
   constructor(movies) {
