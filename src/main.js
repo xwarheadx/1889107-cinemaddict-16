@@ -1,15 +1,15 @@
 import { RenderPosition, renderElement } from './render.js';
-import Statistic from './view/footer-stats.js';
-import MainMenu from './view/menu.js';
-import MovieCard from './view/movie-card.js';
-import MovieTemplate from './view/movie-container.js';
-import TopMovieTemplate from './view/movies-extra-top.js';
-import ViewMovieTemplate from './view/movies-extra-view.js';
-import Popup from './view/popup.js';
-import ShowMore from './view/show-more.js';
-import SortMenu from './view/sort.js';
-import UserName from './view/user-name.js';
 import { generateMovie } from './mock/movie-card-generator.js';
+import FilmCard from './view/film-card.js';
+import ExtraCommentedFilmsList from './view/films-extra-commented.js';
+import ExtraTopFilmList from './view/films-extra-top.js';
+import FilmsList from './view/films-list.js';
+import FooterStatistics from './view/footer-stats.js';
+import MainNavigation from './view/main-navigation.js';
+import Popup from './view/popup.js';
+import Profile from './view/profile.js';
+import ShowMore from './view/show-more.js';
+import Sort from './view/sort.js';
 
 const MOVIE_COUNT = 25;
 const MOVIE_COUNT_PER_STEP = 5;
@@ -25,14 +25,14 @@ const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('header');
 const siteFooterElement = document.querySelector('footer');
 
-renderElement(siteHeaderElement, new UserName(counts.history).element, RenderPosition.BEFOREEND );
-renderElement(siteMainElement, new MainMenu(counts).element, RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new SortMenu().element, RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new MovieTemplate().element, RenderPosition.BEFOREEND);
+renderElement(siteHeaderElement, new Profile(counts.history).element, RenderPosition.BEFOREEND );
+renderElement(siteMainElement, new MainNavigation(counts).element, RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new Sort().element, RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new FilmsList().element, RenderPosition.BEFOREEND);
 
 const siteMoviesContainerElement = siteMainElement.querySelector('.films-list__container');
 const renderPopup = (movie) => {
-  const movieCardComponent = new MovieCard(movie).element;
+  const movieCardComponent = new FilmCard(movie).element;
   const moviePopupComponent = new Popup(movie).element;
 
   renderElement(siteMoviesContainerElement, movieCardComponent, RenderPosition.BEFOREEND);
@@ -70,7 +70,7 @@ if (movies.length > MOVIE_COUNT_PER_STEP) {
   });
 }
 
-renderElement(siteMainElement, new TopMovieTemplate().element, RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new ViewMovieTemplate().element, RenderPosition.BEFOREEND);
-renderElement(siteFooterElement, new Statistic(movies).element, RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new ExtraTopFilmList().element, RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new ExtraCommentedFilmsList().element, RenderPosition.BEFOREEND);
+renderElement(siteFooterElement, new FooterStatistics(movies).element, RenderPosition.BEFOREEND);
 
