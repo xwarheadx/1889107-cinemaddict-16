@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createUserNameButtonTemplate = (history) => {
   let rank = '';
@@ -9,27 +9,15 @@ const createUserNameButtonTemplate = (history) => {
 <p class="profile__rating">${rank}</p>
 <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
 </section>`;};
-export default class Profile {
+export default class Profile extends AbstractView {
   #history = null;
-  #element = null;
 
   constructor(history) {
+    super();
     this.#history = history;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createUserNameButtonTemplate(this.#history);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

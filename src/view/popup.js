@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from './abstract-view.js';
 const createCommentItemTemplate = ({author, text, date, emotion}) => (
 
   `<li class="film-details__comment">
@@ -133,27 +133,25 @@ const createPopupTemplate = (movie) => {
   </div>
 </form>
 </section>`;};
-export default class Popup {
+export default class Popup extends AbstractView {
   #movie = null;
-  #element = null;
 
   constructor(movie) {
+    super();
     this.#movie = movie;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createPopupTemplate(this.#movie);
   }
 
-  removeElement() {
-    this.#element = null;
+  setPopupCloseBtnHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#popupCloseBtnHandler);
+  }
+
+  #popupCloseBtnHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
   }
 }
