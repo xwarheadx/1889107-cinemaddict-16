@@ -1,5 +1,6 @@
+import { createElement } from '../render.js';
 const createDescription = (description) => description.length > 140 ? `${description.slice(0, 139)}...` : description;
-export const createMovieCardTemplate = (movie) => {
+const createMovieCardTemplate = (movie) => {
   const {name, poster, description, rating, date, duration, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
   const activeClassName = (status) => status ? 'film-card__controls-item--active': '';
   return `<article class="film-card">
@@ -21,3 +22,27 @@ export const createMovieCardTemplate = (movie) => {
   <button class="film-card__controls-item film-card__controls-item--favorite ${activeClassName(isFavorite)}" type="button">Mark as favorite</button>
 </div>
 </article>`;};
+export default class MovieCard {
+  #movie = null;
+  #element = null;
+
+  constructor(movie) {
+    this.#movie = movie;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createMovieCardTemplate(this.#movie);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
