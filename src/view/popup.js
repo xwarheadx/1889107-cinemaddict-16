@@ -1,3 +1,4 @@
+import { createElement } from '../render.js';
 const createCommentItemTemplate = ({author, text, date, emotion}) => (
 
   `<li class="film-details__comment">
@@ -15,7 +16,7 @@ const createCommentItemTemplate = ({author, text, date, emotion}) => (
       </li>`
 
 );
-export const createPopupTemplate = (movie) => {
+const createPopupTemplate = (movie) => {
   const {name, poster, description, rating, ageRating, date, duration, director, writer, actor, genre, country, inWatchlist, isWatched, isFavorite, comments} = movie;
   const activeClassName = (status) => status ? 'film-details__control-button--active': '';
   const commentItemsTemplate = comments
@@ -132,3 +133,27 @@ export const createPopupTemplate = (movie) => {
   </div>
 </form>
 </section>`;};
+export default class Popup {
+  #movie = null;
+  #element = null;
+
+  constructor(movie) {
+    this.#movie = movie;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupTemplate(this.#movie);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
