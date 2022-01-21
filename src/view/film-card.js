@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from './abstract-view.js';
 const createDescription = (description) => description.length > 140 ? `${description.slice(0, 139)}...` : description;
 const createMovieCardTemplate = (movie) => {
   const {name, poster, description, rating, date, duration, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
@@ -22,27 +22,24 @@ const createMovieCardTemplate = (movie) => {
   <button class="film-card__controls-item film-card__controls-item--favorite ${activeClassName(isFavorite)}" type="button">Mark as favorite</button>
 </div>
 </article>`;};
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   #movie = null;
-  #element = null;
 
   constructor(movie) {
+    super();
     this.#movie = movie;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createMovieCardTemplate(this.#movie);
   }
 
-  removeElement() {
-    this.#element = null;
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#clickHandler);
   }
-}
+
+  #clickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  }}
