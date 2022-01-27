@@ -3,6 +3,7 @@ const createDescription = (description) => description.length > 140 ? `${descrip
 const createMovieCardTemplate = (movie) => {
   const {name, poster, description, rating, date, duration, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
   const activeClassName = (status) => status ? 'film-card__controls-item--active': '';
+
   return `<article class="film-card">
 <a class="film-card__link">
   <h3 class="film-card__title">${name}</h3>
@@ -36,10 +37,40 @@ export default class FilmCard extends AbstractView {
 
   setClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.addEventListener('click', this.#clickHandler);
+    this.element.querySelector('a.film-card__link').addEventListener('click', this.#clickHandler);
+  }
+
+  setWatchlistAddedClickHandler = (callback) => {
+    this._callback.watchlistAddedClick = callback;
+    this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#watchlistAddedClickHandler);
+  }
+
+  setWatchedClickHandler = (callback) => {
+    this._callback.watchedClick = callback;
+    this.element.querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this.#watchedClickHandler);
+  }
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.film-card__controls-item--favorite').addEventListener('click', this.#favoriteClickHandler);
   }
 
   #clickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click();
+  }
+
+  #watchlistAddedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchlistAddedClick();
+  }
+
+  #watchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   }}
