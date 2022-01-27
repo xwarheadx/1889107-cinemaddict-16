@@ -1,5 +1,6 @@
-import { getRandomInteger } from './utils.js';
+import { getRandomInteger } from '../utils.js';
 import { generateComment } from './comments-generator.js';
+import {nanoid} from 'nanoid';
 const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, conctetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.',
@@ -95,6 +96,7 @@ export const getRandomArray = (list) => {
 };
 
 export const generateMovie = () => ({
+  id: nanoid(),
   name: MOVIE_TITLES[getRandomInteger(0, MOVIE_TITLES.length-1)],
   poster: POSTERS[getRandomInteger(0, POSTERS.length-1)],
   rating: `${getRandomInteger(1, 9)}.${getRandomInteger(0, 9)}`,

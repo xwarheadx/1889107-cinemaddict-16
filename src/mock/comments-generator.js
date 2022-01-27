@@ -1,4 +1,4 @@
-import { getRandomInteger } from './utils.js';
+import { getRandomInteger } from '../utils.js';
 import dayjs from 'dayjs';
 const generateCommentDate = () => {
   const totalDate = 30;

@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view.js';
+import SmartView from './smart-view.js';
 const createCommentItemTemplate = ({author, text, date, emotion}) => (
 
   `<li class="film-details__comment">
@@ -133,7 +133,7 @@ const createPopupTemplate = (movie) => {
   </div>
 </form>
 </section>`;};
-export default class Popup extends AbstractView {
+export default class Popup extends SmartView {
   #movie = null;
 
   constructor(movie) {
@@ -154,4 +154,48 @@ export default class Popup extends AbstractView {
     evt.preventDefault();
     this._callback.click();
   }
-}
+
+
+  setWatchlistAddedClickHandler = (callback) => {
+    this._callback.watchlistAddedClick = callback;
+    this.element.querySelector('.film-details__control-button--watchlist').addEventListener('click', this.#watchlistAddedClickHandler);
+  }
+
+  setWatchedClickHandler = (callback) => {
+    this._callback.watchedClick = callback;
+    this.element.querySelector('.film-details__control-button--watched').addEventListener('click', this.#watchedClickHandler);
+  }
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
+  }
+
+  #watchlistAddedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchlistAddedClick();
+    this.element.querySelector('.film-details__control-button--watchlist').classList.toggle('film-details__control-button--active');
+  }
+
+  #watchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedClick();
+    this.element.querySelector('.film-details__control-button--watched').classList.toggle('film-details__control-button--active');
+  }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+    this.element.querySelector('.film-details__control-button--favorite').classList.toggle('film-details__control-button--active');
+  }
+
+  reset = (task) => {
+    this.updateData(task);
+  }
+
+  restoreHandlers = () => {
+    this.setFavoriteClickHandler(this.#favoriteClickHandler);
+    this.setWatchedClickHandler(this.#watchedClickHandler);
+    this.setWatchlistAddedClickHandler(this.#watchlistAddedClickHandler);
+    this.setPopupCloseBtnHandler(this._callback.click);
+  }}
