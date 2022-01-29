@@ -1,7 +1,10 @@
 import AbstractView from './abstract-view.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 const createDescription = (description) => description.length > 140 ? `${description.slice(0, 139)}...` : description;
 const createMovieCardTemplate = (movie) => {
-  const {name, poster, description, rating, date, duration, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
+  const {name, poster, description, rating, date, length, genre, inWatchlist, isWatched, isFavorite, comments} = movie;
   const activeClassName = (status) => status ? 'film-card__controls-item--active': '';
 
   return `<article class="film-card">
@@ -9,8 +12,8 @@ const createMovieCardTemplate = (movie) => {
   <h3 class="film-card__title">${name}</h3>
   <p class="film-card__rating">${rating}</p>
   <p class="film-card__info">
-    <span class="film-card__year">${date}</span>
-    <span class="film-card__duration">${duration}</span>
+    <span class="film-card__year">${dayjs(date).format('YYYY')}</span>
+    <span class="film-card__duration">${dayjs.duration(length, 'minutes').format('H[h] m[m]')}</span>
     <span class="film-card__genre">${genre[0]}</span>
   </p>
   <img src=${poster} alt="" class="film-card__poster">

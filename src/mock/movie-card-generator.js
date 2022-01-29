@@ -107,7 +107,7 @@ export const generateMovie = () => ({
   genre: getRandomArray(GENRES),
   ageRating: AGE_RATING[getRandomInteger(0, AGE_RATING.length-1)],
   description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length-1)],
-  duration: `${getRandomInteger(1, 3)}h ${getRandomInteger(1, 59)}m`,
+  length: `${getRandomInteger(60, 179)}`,
   date: `${getRandomInteger(1931, 2020)}`,
   comments: (Array.from({length: getRandomInteger(1,10)}, generateComment)),
   inWatchlist: (Boolean(getRandomInteger(0, 1))),
