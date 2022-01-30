@@ -1,4 +1,7 @@
 import SmartView from './smart-view.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 const createCommentItemTemplate = ({author, text, date, emotion}) => (
 
   `<li class="film-details__comment">
@@ -9,7 +12,7 @@ const createCommentItemTemplate = ({author, text, date, emotion}) => (
           <p class="film-details__comment-text">${text}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${date}</span>
+            <span class="film-details__comment-day">${dayjs(date).format('DD/MM/YYYY h:mm')}</span>
             <button class="film-details__comment-delete">Delete</button>
           </p>
         </div>
@@ -17,7 +20,7 @@ const createCommentItemTemplate = ({author, text, date, emotion}) => (
 
 );
 const createPopupTemplate = (movie) => {
-  const {name, poster, description, rating, ageRating, date, duration, director, writer, actor, genre, country, inWatchlist, isWatched, isFavorite, comments, newCommentData} = movie;
+  const {name, poster, description, rating, ageRating, date, length, director, writer, actor, genre, country, inWatchlist, isWatched, isFavorite, comments, newCommentData} = movie;
   const activeClassName = (status) => status ? 'film-details__control-button--active': '';
   const commentItemsTemplate = comments
     .map((comment) => createCommentItemTemplate(comment))
@@ -62,11 +65,11 @@ const createPopupTemplate = (movie) => {
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Release Date</td>
-            <td class="film-details__cell">${date}</td>
+            <td class="film-details__cell">${dayjs(date).format('DD MMMM YYYY')}</td>
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Runtime</td>
-            <td class="film-details__cell">${duration}</td>
+            <td class="film-details__cell">${dayjs.duration(length, 'minutes').format('H[h] m[m]')}</td>
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Country</td>

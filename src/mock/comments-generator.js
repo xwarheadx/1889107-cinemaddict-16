@@ -1,10 +1,11 @@
 import { getRandomInteger } from '../utils.js';
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 const generateCommentDate = () => {
   const totalDate = 30;
   const daysStep = getRandomInteger(0, -totalDate);
 
-  return dayjs().add(daysStep, 'day').format('DD/MM/YYYY h:mm');
+  return dayjs().add(daysStep, 'day');
 };
 const EMOTIONS = [
   './images/emoji/smile.png',
@@ -24,7 +25,7 @@ const AUTHORS = [
 
 export const generateComment = () => (
   {
-    id: getRandomInteger(1, 30),
+    id: nanoid(),
     author: AUTHORS[getRandomInteger(0, AUTHORS.length-1)],
     emotion: EMOTIONS[getRandomInteger(0, EMOTIONS.length-1)],
     text: COMMENTS[getRandomInteger(0, COMMENTS.length-1)],
